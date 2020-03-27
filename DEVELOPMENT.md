@@ -1,4 +1,4 @@
-# Develop and Contribute
+# Develop and contribute
 
 - [Setup](#setup)
     - [Build PMEM-CSI](#build-pmem-csi)
@@ -20,10 +20,10 @@
     - [Specific arguments to pmem-csi-driver](#specific-arguments-to-pmem-csi-driver)
     - [Environment variables](#environment-variables)
     - [Logging](#logging)
-- [Notes about switching device mode](#notes-about-switching-device-mode)
+- [Switching device mode](#switching-device-mode)
     - [Going from LVM device mode to direct device mode](#going-from-lvm-device-mode-to-direct-device-mode)
     - [Going from direct device mode to LVM device mode](#going-from-direct-device-mode-to-lvm-device-mode)
-- [Notes about accessing system directories in a container](#notes-about-accessing-system-directories-in-a-container)
+- [Accessing system directories in a container](#accessing-system-directories-in-a-container)
     - [Read-only access to /sys](#read-only-access-to-sys)
     - [Access to /dev of host](#access-to-dev-of-host)
 - [Repository elements which are generated or created separately](#repository-elements-which-are-generated-or-created-separately)
@@ -250,7 +250,7 @@ The klog.Info statements are used via the verbosity checker using the following 
 
 There are also messages using klog.Warning, klog.Error and klog.Fatal, and their formatted counterparts.
 
-## Notes about switching device mode
+## Switching device mode
 
 If device mode is switched between LVM and direct(aka ndctl), please keep
 in mind that PMEM-CSI driver does not clean up or reclaim namespaces,
@@ -264,7 +264,7 @@ will create trouble in another device mode.
 - examine LV physical volumes state on a node: `pvs`
 - delete LV groups before deleting namespaces to avoid orphaned volume groups: `vgremove VGNAME`
 
-NOTE: The next **WILL DELETE ALL NAMESPACES** so be careful!
+NOTE: The following **WILL DELETE ALL NAMESPACES** so be careful!
 
 - Delete namespaces on a node using CLI: `ndctl destroy-namespace all --force`
 
@@ -279,7 +279,7 @@ those (LVM device mode does honor "foreign" namespaces and leaves those
 alone) if you have enough space, or you can choose to delete those
 using `ndctl` on node.
 
-## Notes about accessing system directories in a container
+## Accessing system directories in a container
 
 The PMEM-CSI driver will run as container, but it needs access to
 system directories /sys and /dev. Two related potential problems have
