@@ -32,3 +32,5 @@ def fixLocalMDAnchors(app, doctree, docname):
         if '.md#' in uri and 'https://' not in uri:
             print(uri)
             node['refuri'] = node['refuri'].replace('.md#','.html#')
+        if '.rst' in uri and 'https://' not in uri:
+            node['refuri'] = node['refuri'].replace('.rst','.html')

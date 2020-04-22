@@ -12,7 +12,7 @@ library](https://github.com/pmem/ndctl). In this readme, we use
 module (NVDIMM).
 
 The [v0.6.0 release](https://github.com/intel/pmem-csi/releases/tag/v0.6.0)
-is the latest feature release and is [regularly updated](./DEVELOPMENT.md#release-management) with newer base images
+is the latest feature release and is [regularly updated](docs/DEVELOPMENT.md#release-management) with newer base images
 and bug fixes. Older versions are no longer supported.
 
 The PMEM-CSI driver follows the [CSI
@@ -28,7 +28,7 @@ listening for API requests and provisioning volumes accordingly.
        - [Filing issues and contributing](docs/install.md#filing-issues-and-contributing)
     - [Develop and contribute](docs/DEVELOPMENT.md)
     - [Automated testing](docs/autotest.md)
-    - [Application examples](examples/readme)
+    - [Application examples](examples/readme.rst)
 
 ## Supported Kubernetes versions
 

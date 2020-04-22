@@ -174,7 +174,7 @@ Network ports are opened as configured in manifest files:
 
 - registry endpoint: typical port value 10000, used for PMEM-CSI internal communication
 - controller endpoint: typical port value 10001, used for serving CSI API
-- webhook endpoint: disabled by default, port chosen when [enabling the scheduler extensions](/README.md#enable-scheduler-extensions)
+- webhook endpoint: disabled by default, port chosen when [enabling the scheduler extensions](../README.md#enable-scheduler-extensions)
 
 
 ### Local sockets
