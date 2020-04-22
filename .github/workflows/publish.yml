@@ -3,7 +3,7 @@ name: Publish
 on:
   push:
     branches:
-        - kp-rtd-sphinx-reorg
+        - kp-rtd-sphinx-reorg-2
 
 jobs:
   build:
