@@ -21,14 +21,14 @@ listening for API requests and provisioning volumes accordingly.
 
 - [PMEM-CSI for Kubernetes](#pmem-csi-for-kubernetes)
     - [Supported Kubernetes versions](#supported-kubernetes-versions)
-    - [Design and architecture](design.md)
-    - [Instructions for Admins and Users](install.md)
-       - [Prerequisites](install.md#prerequisites)
-       - [Installation and setup](install.md#installation-and-setup)
-       - [Filing issues and contributing](install.md#filing-issues-and-contributing)
-    - [Develop and contribute](DEVELOPMENT.md)
-    - [Automated testing](autotest.md)
-    - [Application examples](examples)
+    - [Design and architecture](docs/design.md)
+    - [Instructions for Admins and Users](docs/install.md)
+       - [Prerequisites](docs/install.md#prerequisites)
+       - [Installation and setup](docs/install.md#installation-and-setup)
+       - [Filing issues and contributing](docs/install.md#filing-issues-and-contributing)
+    - [Develop and contribute](docs/DEVELOPMENT.md)
+    - [Automated testing](docs/autotest.md)
+    - [Application examples](examples/readme)
 
 ## Supported Kubernetes versions
 

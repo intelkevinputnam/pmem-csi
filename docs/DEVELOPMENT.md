@@ -42,14 +42,14 @@
 2.  Use `make push-images` to push Docker container images to a Docker image registry. The
     default is to push to a local [Docker registry](https://docs.docker.com/registry/deploying/).
     Some other registry can be configured by setting the variables described in
-    in the [test-config.sh](test/test-config.sh) file, see the [configuration options](#configuration-options)
+    in the [test-config.sh](/test/test-config.sh) file, see the [configuration options](#configuration-options)
     section below. Alternatively, the registry can also be set with a make variable:
     `make push-images REGISTRY_NAME=my-registry:5000`
 
-See the [Makefile](Makefile) for additional make targets and possible make variables.
+See the [Makefile](/Makefile) for additional make targets and possible make variables.
 
 The source code gets developed and tested using the version of Go that
-is set with `GO_VERSION` in the [Dockerfile](Dockerfile). Some other
+is set with `GO_VERSION` in the [Dockerfile](/Dockerfile). Some other
 version may or may not work. In particular, `test_fmt` and
 `test_vendor` are known to be sensitive to the version of Go.
 
@@ -174,7 +174,7 @@ Network ports are opened as configured in manifest files:
 
 - registry endpoint: typical port value 10000, used for PMEM-CSI internal communication
 - controller endpoint: typical port value 10001, used for serving CSI API
-- webhook endpoint: disabled by default, port chosen when [enabling the scheduler extensions](./README.md#enable-scheduler-extensions)
+- webhook endpoint: disabled by default, port chosen when [enabling the scheduler extensions](/README.md#enable-scheduler-extensions)
 
 
 ### Local sockets

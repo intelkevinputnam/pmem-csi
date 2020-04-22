@@ -166,7 +166,7 @@ interface](https://github.com/container-storage-interface/spec/blob/master/spec.
 
 When the PMEM-CSI driver runs in _Controller_ mode, it starts a gRPC
 server on a given endpoint(_-registryEndpoint_) and serves the
-[RegistryServer](pkg/pmem-registry/pmem-registry.proto) interface. The
+[RegistryServer](/pkg/pmem-registry/pmem-registry.proto) interface. The
 driver(s) running in _Node_ mode can register themselves with node
 specific information such as node id,
 [NodeControllerServer](#node-controller-server) endpoint, and their
@@ -229,11 +229,11 @@ components. The following common names have a special meaning:
 - `pmem-registry` is used by the [RegistryServer](#node-registry-server).
 - `pmem-node-controller` is used by [NodeControllerServers](#node-controller-server)
 
-The [`test/setup-ca.sh`](test/setup-ca.sh)
+The [`test/setup-ca.sh`](/test/setup-ca.sh)
 script shows how to generate self-signed certificates. The test cluster is set
 up using certificates created by that script, with secrets prepared by
-[`test/setup-deployment.sh`](test/setup-deployment.sh) before
-deploying the driver using the provided [deployment files](deploy/).
+[`test/setup-deployment.sh`](/test/setup-deployment.sh) before
+deploying the driver using the provided [deployment files](/deploy/).
 
 Beware that these are just examples. Administrators of a cluster must
 ensure that they choose key lengths and algorithms of sufficient

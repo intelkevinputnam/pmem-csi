@@ -93,12 +93,12 @@ the master node.
 After `make start`, PMEM-CSI is *not* installed yet. Either install
 manually as [described for a normal
 cluster](#run-pmem-csi-on-kubernetes) or use the
-[setup-deployment.sh](./test/setup-deployment.sh) script.
+[setup-deployment.sh](/test/setup-deployment.sh) script.
 
 ## Configuration options
 
 Several aspects of the cluster and build setup can be configured by overriding
-the settings in the [test-config.sh](test/test-config.sh) file. See
+the settings in the [test-config.sh](/test/test-config.sh) file. See
 that file for a description of all options. Options can be set as
 environment variables of `make start` on a case-by-case basis or
 permanently by creating a file like `test/test-config.d/my-config.sh`.

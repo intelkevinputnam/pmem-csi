@@ -26,7 +26,7 @@ jobs:
         mkdir $HOME/output
         mv _output/html $HOME/output/latest
         touch $HOME/output/.nojekyll
-        mv index2.html $HOME/output/index.html
+        mv docs/html/index2.html $HOME/output/index.html
         cd $HOME/output
         git init
         git config --global user.name "${GITHUB_ACTOR}"

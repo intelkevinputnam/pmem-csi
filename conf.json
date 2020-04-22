@@ -24,7 +24,7 @@
         "_templates"
     ],
     "html_copy_source": false,
-    "rst_epilog": ".. include:: /substitutions.txt",
+    "rst_epilog": ".. include:: /docs/substitutions.txt",
     "source_suffix": {
         ".rst": "restructuredtext",
         ".md": "markdown"

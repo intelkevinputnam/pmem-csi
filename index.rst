@@ -10,9 +10,9 @@ PMEM-CSI
    :maxdepth: 2
 
    README.md
-   design.md
-   install.md
-   DEVELOPMENT.md
-   autotest.md
-   examples.rst
+   docs/design.md
+   docs/install.md
+   docs/DEVELOPMENT.md
+   docs/autotest.md
+   examples/readme.rst
    Project GitHub repository <https://github.com/intel/pmem-csi>

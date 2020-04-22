@@ -359,8 +359,8 @@ provisioned volume can be used:
   of PMEM volumes each volume on different node. The number of PMEM
   volumes to create can be specified by `cacheSize` StorageClass
   parameter. Applications which claim a `cache` volume can use
-  `ReadWriteMany` in its `accessModes` list. Check with provided [cache
-  StorageClass](deploy/common/pmem-storageclass-cache.yaml)
+  `ReadWriteMany` in its `accessModes` list. Check with provided 
+  [cacheStorageClass](/deploy/common/pmem-storageclass-cache.yaml)
   example. This
   [diagram](/docs/images/sequence/pmem-csi-cache-sequence-diagram.png)
   illustrates how a cache volume gets provisioned in Kubernetes using
@@ -372,8 +372,8 @@ own instance but will end up sharing the same PMEM volume instead.
 Application deployment has to consider this and use available Kubernetes
 mechanisms like [node
 anti-affinity](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity).
-Check with the provided [cache
-application](deploy/common/pmem-app-cache.yaml) example.
+Check with the provided 
+[cacheapplication](/deploy/common/pmem-app-cache.yaml) example.
 
 **WARNING**: late binding (`volumeBindingMode:WaitForFirstConsume`) has some caveats:
 * Pod creation may get stuck when there isn't enough capacity left for
@@ -388,7 +388,7 @@ Volume requests embedded in Pod spec are provisioned as ephemeral volumes. The v
 |`size`|Size of the requested ephemeral volume as [Kubernetes memory string](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#meaning-of-memory) ("1Mi" = 1024*1024 bytes, "1e3K = 1000000 bytes)|No||
 |`eraseAfter`|Clear all data after use and before<br> deleting the volume|Yes|`true` (default),<br> `false`|
 
-Check with provided [example application](deploy/kubernetes-1.15/pmem-app-ephemeral.yaml) for
+Check with provided [example application](/deploy/kubernetes-1.15/pmem-app-ephemeral.yaml) for
 ephemeral volume usage.
 
 #### Raw block volumes
@@ -404,8 +404,8 @@ advantage then is that they have full control over that part.
 
 For provisioning a PMEM volume as raw block device, one has to create a 
 `PersistentVolumeClaim` with `volumeMode: Block`. See example [PVC](
-deploy/common/pmem-pvc-block-volume.yaml) and
-[application](deploy/common/pmem-app-block-volume.yaml) for usage reference.
+/deploy/common/pmem-pvc-block-volume.yaml) and
+[application](/deploy/common/pmem-app-block-volume.yaml) for usage reference.
 
 That example demonstrates how to handle some details:
 - `mkfs.ext4` needs `-b 4096` to produce volumes that support dax;
@@ -465,7 +465,7 @@ The `kube-scheduler` must be able to connect to the PMEM-CSI
 controller via the `urlPrefix` in its configuration. In some clusters
 it is possible to use cluster DNS and thus a symbolic service name. If
 that is the case, then deploy the [scheduler
-service](./deploy/kustomize/scheduler/scheduler-service.yaml) as-is
+service](/deploy/kustomize/scheduler/scheduler-service.yaml) as-is
 and use `https://pmem-csi-scheduler.default.svc` as `urlPrefix`. If
 the PMEM-CSI driver is deployed in a namespace, replace `default` with
 the name of that namespace.
@@ -568,7 +568,7 @@ kubectl label ns kube-system pmem-csi.intel.com/webhook=ignore
 ```
 
 This special label is configured in [the provided web hook
-definition](./deploy/kustomize/webhook/webhook.yaml). On Kubernetes >=
+definition](/deploy/kustomize/webhook/webhook.yaml). On Kubernetes >=
 1.15, it can also be used to let individual pods bypass the webhook by
 adding that label. The CA gets configured explicitly, which is
 supported for webhooks.
