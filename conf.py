@@ -1,18 +1,3 @@
-# Configuration file for the Sphinx documentation builder.
-#
-# This file only contains a selection of the most common options. For a full
-# list see the documentation:
-# http://www.sphinx-doc.org/en/master/config
-
-# -- Path setup --------------------------------------------------------------
-
-# If extensions (or modules to document with autodoc) are in another directory,
-# add these directories to sys.path here. If the directory is relative to the
-# documentation root, use os.path.abspath to make it absolute, like shown here.
-#
-# import os
-# import sys
-# sys.path.insert(0, os.path.abspath('.'))
 
 import json
 from docutils import nodes
@@ -20,10 +5,41 @@ from os.path import isdir, isfile, join, basename, dirname
 from os import makedirs, getenv
 from shutil import copyfile
 
-uris2check = []
+##############################################################################
+#
+# This section determines the behavior of links to local items in .md files.
+#
+#  if useGitHubURL == True:
+#
+#     links to local files and directories will be turned into github URLs
+#     using either the baseBranch defined here or using the commit SHA.
+#
+#  if useGitHubURL == False:
+#
+#     local files will be moved to the website directory structure when built
+#     local directories will still be links to github URLs
+#
+#  if built with GitHub workflows:
+#
+#     the GitHub URLs will use the commit SHA (GITHUB_SHA environment variable
+#     is defined by GitHub workflows) to link to the specific commit. 
+#
+##############################################################################
 
+baseBranch = "devel"
+useGitHubURL = True
 commitSHA = getenv('GITHUB_SHA')
-print(commitSHA)
+githubBaseURL = "https://github.com/intelkevinputnam/pmem-csi/"
+githubFileURL = githubBaseURL + "blob/"
+githubDirURL = githubBaseURL + "tree/"
+if commitSHA:
+    githubFileURL = githubFileURL + commitSHA + "/"
+    githubDirURL = githubDirURL + commitSHA + "/"
+else:
+    githubFileURL = githubFileURL + baseBranch + "/"
+    githubDirURL = githubDirURL + baseBranch + "/"
+
+# End GitHub URL section
 
 with open('conf.json') as jsonFile:
     conf = json.load(jsonFile)
@@ -34,6 +50,18 @@ for item in conf:
 def setup(app):
     app.connect('doctree-resolved',fixLocalMDAnchors)
     app.connect('missing-reference',fixRSTLinkInMD)
+
+##############################################################################
+#
+#  This section defines callbacks that make markdown specific tweaks to
+#  either:
+#
+#  1. Fix something that recommonmark does wrong.
+#  2. Provide support for .md files that are written as READMEs in a GitHub
+#     repo. 
+#
+##############################################################################
+
 
 # Callback registerd with 'missing-reference'. 
 def fixRSTLinkInMD(app, env, node, contnode):
@@ -60,12 +88,14 @@ def fixRSTLinkInMD(app, env, node, contnode):
     #
     # Example: [Makefile](/Makefile)
     #
-        if isfile(filePath):
+        if isfile(filePath) or isdir(filePath):
             uris2check.append(filePath) 
             return contnode
 
 
 def normalizePath(docPath,uriPath):
+    if uriPath == "":
+        return uriPath
     if "#" in uriPath:
     # Strip out anchors
         uriPath = uriPath.split("#")[0]
@@ -100,23 +130,38 @@ def fixLocalMDAnchors(app, doctree, docname):
             #
                 node['refuri'] = node['refuri'].replace('.md','.html')
             else: 
-            # If there are links to local files other than .md (.rst files are caught
-            # when warnings are fired), move the files into the Sphinx project, so
-            # they can be accessed. 
+            # Handle the case where markdown is referencing local files in the repo
             #
             # Example: [Makefile](/Makefile)
             #
-                newFileDir = join(app.outdir,dirname(filePath)) # where to move the file in Sphinx output.
-                newFilePath = join(app.outdir,filePath)
-                newURI = uri # if the path is relative no need to change it.
-                if uri.startswith("/"):
-                # It's an absolute path. Need to make it relative.
-                    uri = uri.lstrip("/")
-                    docDirDepth = len(docname.split("/")) - 1
-                    newURI = "../"*docDirDepth + uri
-                if not isdir(newFileDir):
-                    makedirs(newFileDir)                
+                if useGitHubURL:
+                # Replace references to local files with links to the GitHub repo
+                #
+                    newURI = githubFileURL + filePath
+                    print("new url: ", newURI)
+                    node['refuri']=newURI
+                else:
+                # If there are links to local files other than .md (.rst files are caught
+                # when warnings are fired), move the files into the Sphinx project, so
+                # they can be accessed. 
+                    newFileDir = join(app.outdir,dirname(filePath)) # where to move the file in Sphinx output.
+                    newFilePath = join(app.outdir,filePath)
+                    newURI = uri # if the path is relative no need to change it.
+                    if uri.startswith("/"):
+                    # It's an absolute path. Need to make it relative.
+                        uri = uri.lstrip("/")
+                        docDirDepth = len(docname.split("/")) - 1
+                        newURI = "../"*docDirDepth + uri
+                    if not isdir(newFileDir):
+                        makedirs(newFileDir)                
+                    copyfile(filePath,newFilePath)
+                    node['refuri'] = newURI
+        elif "#" not in uri:
+        # turn links to directories into links to the repo
+            if isdir(filePath):
+                newURI = githubDirURL + filePath
+                node['refuri']=newURI
+            
 
-                copyfile(filePath,newFilePath)
-                node['refuri'] = newURI
+
 

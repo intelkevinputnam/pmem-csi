@@ -180,7 +180,7 @@ _Controller_ mode and serves the
 interface defined by the CSI specification. The server responds to
 CreateVolume(), DeleteVolume(), ControllerPublishVolume(),
 ControllerUnpublishVolume(), and ListVolumes() calls coming from
-[external-provisioner]() and [external-attacher]() sidecars. It
+external-provisioner() and external-attacher() sidecars. It
 forwards the publish and unpublish volume requests to the appropriate
 [Node controller server](#node-controller-server) running on a worker
 node that was registered with the driver.

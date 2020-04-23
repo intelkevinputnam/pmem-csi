@@ -113,7 +113,7 @@ Fedora distro:
 TEST_DISTRO=fedora CLUSTER=fedora-govm make start
 ```
 
-See additional details in [test/test-config.d](https://github.com/intel/pmem-csi/tree/devel/test/test-config.d).
+See additional details in [test/test-config.d](/test/test-config.d).
 
 ## Running E2E tests
 
