@@ -20,6 +20,8 @@ from os.path import isdir, isfile, join, basename, dirname
 from os import makedirs
 from shutil import copyfile
 
+uris2check = []
+
 with open('conf.json') as jsonFile:
     conf = json.load(jsonFile)
 
@@ -39,10 +41,12 @@ def fixRSTLinkInMD(app, env, node, contnode):
     else:
         filePath = refTarget.lstrip("/")
         if isfile(filePath):
+            uris2check.append(filePath)
             return contnode
 
 
 def fixLocalMDAnchors(app, doctree, docname):
+    print(uris2check)
     for node in doctree.traverse(nodes.reference):
         uri = node.get('refuri')
         if '.md' in uri and 'https://' not in uri:
