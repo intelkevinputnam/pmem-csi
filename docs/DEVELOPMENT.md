@@ -42,7 +42,7 @@
 2.  Use `make push-images` to push Docker container images to a Docker image registry. The
     default is to push to a local [Docker registry](https://docs.docker.com/registry/deploying/).
     Some other registry can be configured by setting the variables described in
-    in the [test-config.sh](/test/test-config.sh) file, see the [configuration options](#configuration-options)
+    in the [test-config.sh](/test/test-config.sh) file, see the [configuration options](autotest.md#configuration-options)
     section below. Alternatively, the registry can also be set with a make variable:
     `make push-images REGISTRY_NAME=my-registry:5000`
 
