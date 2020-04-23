@@ -16,6 +16,9 @@
 
 import json
 from docutils import nodes
+from os.path import isdir, isfile, join, basename, dirname
+from os import makedirs
+from shutil import copyfile
 
 with open('conf.json') as jsonFile:
     conf = json.load(jsonFile)
@@ -25,12 +28,42 @@ for item in conf:
 
 def setup(app):
     app.connect('doctree-resolved',fixLocalMDAnchors)
+    app.connect('missing-reference',fixRSTLinkInMD)
+
+def fixRSTLinkInMD(app, env, node, contnode):
+    refTarget = node.get('reftarget')
+    if '.rst' in refTarget and 'https://' not in refTarget:
+        contnode['refuri'] = contnode['refuri'].replace('.rst','.html')
+        contnode['internal'] = "True"
+        return contnode
+    else:
+        filePath = refTarget.lstrip("/")
+        if isfile(filePath):
+            return contnode
+
 
 def fixLocalMDAnchors(app, doctree, docname):
     for node in doctree.traverse(nodes.reference):
         uri = node.get('refuri')
-        if '.md#' in uri and 'https://' not in uri:
-            print(uri)
-            node['refuri'] = node['refuri'].replace('.md#','.html#')
-        if '.rst' in uri and 'https://' not in uri:
-            node['refuri'] = node['refuri'].replace('.rst','.html')
+        if '.md' in uri and 'https://' not in uri:
+            node['refuri'] = node['refuri'].replace('.md','.html')
+        else:
+            filePath = uri.lstrip("/")
+            uriDir = dirname(uri).lstrip("/")
+            if isfile(filePath):
+                print(app.outdir)
+                newFileDir = join(app.outdir,dirname(uriDir))
+                if not isdir(newFileDir):
+                    makedirs(newFileDir)
+                fileName = basename(uri)
+                newFilePath = join(newFileDir,fileName)
+                copyfile(filePath,newFilePath)
+                dirDepth = len(docname.split("/")) - 1
+                newUri = ".."*dirDepth + uri
+                print('depth: ',dirDepth)
+                print('filename: ',fileName)
+                print('new path: ', newUri)
+                print('new file path: ', newFilePath)
+                print('docname: ', docname)
+                print("**************************\n")
+
