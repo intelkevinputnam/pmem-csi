@@ -224,7 +224,6 @@ vhtml: _work/venv/.stamp
 
 html:
 		$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O) && \
-		python3 fix-refs.py
 		cp docs/html/index.html $(BUILDDIR)/html/index.html
 
 clean-html:
