@@ -218,12 +218,12 @@ BUILDDIR      = _output
 # Generate doc site under _build/html with Sphinx.
 vhtml: _work/venv/.stamp
 	. _work/venv/bin/activate && \
-		$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O) && \
+		$(SPHINXBUILD) -M html "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O) && \
 		python3 fix-refs.py
 		cp index.html $(BUILDDIR)/html/index.html
 
 html:
-		$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O) && \
+		$(SPHINXBUILD) -M html "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O) && \
 		cp docs/html/index.html $(BUILDDIR)/html/index.html
 
 clean-html:
