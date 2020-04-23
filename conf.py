@@ -88,8 +88,7 @@ def fixRSTLinkInMD(app, env, node, contnode):
     #
     # Example: [Makefile](/Makefile)
     #
-        if isfile(filePath) or isdir(filePath):
-            uris2check.append(filePath) 
+        if isfile(filePath) or isdir(filePath): 
             return contnode
 
 
