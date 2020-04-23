@@ -23,7 +23,6 @@ jobs:
         make html
     - name: Deploy the docs
       run: |
-        echo $GITHUB_SHA
         mkdir $HOME/output
         mv _output/html $HOME/output/latest
         touch $HOME/output/.nojekyll
