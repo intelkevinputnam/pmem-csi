@@ -17,10 +17,13 @@
 import json
 from docutils import nodes
 from os.path import isdir, isfile, join, basename, dirname
-from os import makedirs
+from os import makedirs, getenv
 from shutil import copyfile
 
 uris2check = []
+
+commitSHA = getenv('GITHUB_SHA')
+print(commitSHA)
 
 with open('conf.json') as jsonFile:
     conf = json.load(jsonFile)
