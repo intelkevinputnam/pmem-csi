@@ -156,7 +156,7 @@ def fixLocalMDAnchors(app, doctree, docname):
                         makedirs(newFileDir)                
                     copyfile(filePath,newFilePath)
                     node['refuri'] = newURI
-        elif "#" not in uri:
+        elif "#" not in uri: # ignore anchors
         # turn links to directories into links to the repo
             if isdir(filePath):
                 newURI = githubDirURL + filePath
