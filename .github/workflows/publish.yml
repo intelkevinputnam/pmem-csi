@@ -23,6 +23,10 @@ jobs:
         make html
     - name: Deploy the docs
       run: |
+        git_hash=$(git rev-parse --short "$GITHUB_SHA")
+        git_branch=${GITHUB_REF##*/}
+        echo $git_hash
+        echo $git_branch
         mkdir $HOME/output
         mv _output/html $HOME/output/latest
         touch $HOME/output/.nojekyll
