@@ -60,6 +60,8 @@ def setup(app):
 #  2. Provide support for .md files that are written as READMEs in a GitHub
 #     repo. 
 #
+#  Only use these changes if using the extension ``recommonmark``.
+#
 ##############################################################################
 
 
@@ -121,11 +123,14 @@ def fixLocalMDAnchors(app, doctree, docname):
             # Make sure .md file links that weren't caught are converted.
             # These occur when creating an explicit link to an .md file
             # from an .rst file. By default these are not validated by Sphinx
-            # or recommonmark. Only toctree references are validated.
+            # or recommonmark. Only toctree references are validated. recommonmark
+            # also fails to convert links to local Markdown files that include
+            # anchors. This fixes that as well.
             #
             # Only include this code if .md files are being converted to html
             #
             # Example: `Google Cloud Engine <gce.md>`__
+            #          [configuration options](autotest.md#configuration-options)
             #
                 node['refuri'] = node['refuri'].replace('.md','.html')
             else: 

@@ -371,11 +371,11 @@ means TOC generation will be more reliable if we avoid non-letter-or-number char
 
 The PMEM-CSI documentation is available as in-repo READMEs and as a GitHub\* hosted [website](https://intel.github.io/pmem-csi). The website is created using the [Sphinx](https://www.sphinx-doc.org/) documentation generator and the well-known [Read the Docs](https://sphinx-rtd-theme.readthedocs.io/) theme. 
 
-Sphinx uses reStructuredText (``.rst``) as the primary document source type but can be extended to use Markdown (``.md``) by adding the ``recommonmark`` and ``sphinx_markdown_tables`` extensions (see [conf.json](/conf.json)).
+Sphinx uses [reStructuredText](https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html)(reST) as the primary document source type but can be extended to use Markdown by adding the ``recommonmark`` and ``sphinx_markdown_tables`` extensions (see [conf.json](/conf.json)).
 
 Change the navigation tree or add documents by updating the ``toctree``. The main ``toctree`` is in ``index.rst``:
 
-```
+``` rst
 .. toctree::
    :maxdepth: 2
 
@@ -388,12 +388,49 @@ Change the navigation tree or add documents by updating the ``toctree``. The mai
    Project GitHub repository <https://github.com/intel/pmem-csi>
 ```
 
-``.md``, ``.rst``, and URLs can all be added to a ``toctree``. The ``:maxdepth:`` argument dictates the number of header levels that will be displayed on that page. This website replaces the ``index.html`` output of this project with a redirect to ``README.html`` (the ``.html`` conversion of the top level ``README.md``) to closer match the in-repo documentation.
+reST files, Markdown files, and URLs can be added to a ``toctree``. The ``:maxdepth:`` argument dictates the number of header levels that will be displayed on that page. This website replaces the ``index.html`` output of this project with a redirect to ``README.html`` (the conversion of the top level README) to closer match the in-repo documentation.
 
-Any document (``.rst`` or ``.md``) not referenced by a ``toctree`` will generate a warning in the build. In its current state, this document set has two ``toctree``s in:
+Any reST or Markdown file not referenced by a ``toctree`` will generate a warning in the build. This document has a ``toctree`` in:
 
 1. ``index.rst``
 2.  ``examples/readme.rst``
 
-Note: Though GitHub can parse ``.rst`` files, the ``toctree`` directive is Sphinx specific, so it is not understood by GitHub. The ``examples/readme.rst`` file is a good example. Also, using the ``:hidden:`` argument to the ``toctree`` directive means that the ``toctree`` is not displayed in the rendered version of the page.
+NOTE: Though GitHub can parse reST files, the ``toctree`` directive is Sphinx specific, so it is not understood by GitHub. ``examples/readme.rst`` is a good example. Adding the ``:hidden:`` argument to the ``toctree`` directive means that the ``toctree`` is not displayed in the Sphinx built version of the page.
+
+This project has some custom capabilities added to the [conf.py](/conf.py) to fix or improve how Sphinx generates the HTML site.
+
+1. Markdown files: Converts references to Markdown files that include anchors.
+   ``` md
+   [configuration options](autotest.md#configuration-options)
+   ```
+2. reST files: Fixes explicit links to Markdown files.
+   ``` rst
+   `Google Cloud Engine <gce.md>`__
+   ```
+3. Markdown files: Fixes references to reST files.
+   ``` md
+   [Application examples](examples/readme.rst)
+   ```
+4. Markdown files: Fixes links to files and directories within the GitHub repo.
+   ``` md
+   [Makefile](/Makefile)
+   [deploy/kustomize](/deploy/kustomize)
+   ```
+   Links to files can be fixed one of two ways, which can be set in the [conf.py](/conf.py). 
+
+   ``` python
+   baseBranch = "devel"
+   useGitHubURL = True
+   commitSHA = getenv('GITHUB_SHA')
+   githubBaseURL = "https://github.com/intelkevinputnam/pmem-csi/"
+   ```
+
+   If ``useGitHubURL`` is set to True, it will try to create links based on your ``githubBaseURL`` and the SHA for the commit to the GitHub repo (determined by the GitHub workflow on merge). If there is no SHA available, it will use the value of ``baseBranch``.
+
+   If ``useGitHubURL`` is set to False, it will copy the files to the HTML output directory and provide links to that location.
+
+   NOTE: Links to files and directories should use absolute paths relative to the repo (see Makefile and deploy/kustomize above). This will work both for the Sphinx build and when viewing in the GitHub repo.
+
+   Links to directories are always converted to links to the GitHub repository.
+
 
