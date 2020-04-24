@@ -32,6 +32,7 @@
     - [Diagrams describing provisioning sequence](#diagrams-describing-provisioning-sequence)
     - [RegistryServer spec](#registryserver-spec)
     - [Table of Contents in README and DEVELOPMENT](#table-of-contents-in-readme-and-development)
+- [Edit, build, and deploy the Read the Docs site](#edit-build-and-deploy-the-read-the-docs-site)
 
 ## Setup
 
@@ -345,7 +346,8 @@ $ git clone https://github.com/golang/protobuf.git && cd protobuf
 $ make # installs needed binary in $GOPATH/bin/protoc-gen-go
 ```
 
-- generate by running in ~/go/src/github.com/intel/pmem-csi/pkg/pmem-registry:
+- generate by running in \~/go/src/github.com/intel/pmem-csi/pkg/pmem-registry:
+
 ```sh
 protoc --plugin=protoc-gen-go=$GOPATH/bin/protoc-gen-go --go_out=plugins=grpc:./ pmem-registry.proto
 ```
@@ -364,3 +366,34 @@ Note that pandoc is known to produce incorrect TOC entries if headers contain sp
 means TOC generation will be more reliable if we avoid non-letter-or-number characters in the headers.
 
 - Another method is to use emacs command markdown-toc-generate-toc and manually check and edit the generated part: we do not show generated 3rd-level headings in README.md.
+
+## Edit, build, and deploy the Read the Docs site
+
+The PMEM-CSI documentation is available as in-repo READMEs and as a GitHub\* hosted [website](https://intel.github.io/pmem-csi). The website is created using the [Sphinx](https://www.sphinx-doc.org/) documentation generator and the well-known [Read the Docs](https://sphinx-rtd-theme.readthedocs.io/) theme. 
+
+Sphinx uses reStructuredText (``.rst``) as the primary document source type but can be extended to use Markdown (``.md``) by adding the ``recommonmark`` and ``sphinx_markdown_tables`` extensions (see [conf.json](/conf.json)).
+
+Change the navigation tree or add documents by updating the ``toctree``. The main ``toctree`` is in ``index.rst``:
+
+```
+.. toctree::
+   :maxdepth: 2
+
+   README.md
+   docs/design.md
+   docs/install.md
+   docs/DEVELOPMENT.md
+   docs/autotest.md
+   examples/readme.rst
+   Project GitHub repository <https://github.com/intel/pmem-csi>
+```
+
+``.md``, ``.rst``, and URLs can all be added to a ``toctree``. The ``:maxdepth:`` argument dictates the number of header levels that will be displayed on that page. This website replaces the ``index.html`` output of this project with a redirect to ``README.html`` (the ``.html`` conversion of the top level ``README.md``) to closer match the in-repo documentation.
+
+Any document (``.rst`` or ``.md``) not referenced by a ``toctree`` will generate a warning in the build. In its current state, this document set has two ``toctree``s in:
+
+1. ``index.rst``
+2.  ``examples/readme.rst``
+
+Note: Though GitHub can parse ``.rst`` files, the ``toctree`` directive is Sphinx specific, so it is not understood by GitHub. The ``examples/readme.rst`` file is a good example. Also, using the ``:hidden:`` argument to the ``toctree`` directive means that the ``toctree`` is not displayed in the rendered version of the page.
+
