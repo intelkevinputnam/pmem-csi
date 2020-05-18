@@ -4,6 +4,8 @@ from docutils import nodes
 from os.path import isdir, isfile, join, basename, dirname
 from os import makedirs, getenv
 from shutil import copyfile
+from pygments.lexers.shell import BashSessionLexer
+from sphinx.highlighting import lexers
 
 ##############################################################################
 #
@@ -50,6 +52,17 @@ for item in conf:
 def setup(app):
     app.connect('doctree-resolved',fixLocalMDAnchors)
     app.connect('missing-reference',fixRSTLinkInMD)
+
+#############
+#
+# Add a special lexer to add a class to console lexer
+#
+#############
+
+class copyAllConsole (BashSessionLexer):
+    name = 'ShellSession'
+
+lexers['ShellSession'] = copyAllConsole(startinLine=True)
 
 ##############################################################################
 #

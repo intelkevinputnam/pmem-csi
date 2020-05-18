@@ -241,7 +241,8 @@ GEN_DOCS = $(SPHINXBUILD) -M html "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O
 	( ! [ "$$GITHUB_SHA" ] || ! [ "$$GITHUB_REPOSITORY" ] || \
 	  find $(BUILDDIR)/html/ -name '*.html' | \
 	  xargs sed -i -e "s;github.com/intel/pmem-csi/\\(deploy/\\S*\\);github.com/$$GITHUB_REPOSITORY/\\1?ref=$$GITHUB_SHA;g" ) && \
-	cp docs/html/index.html $(BUILDDIR)/html/index.html
+	cp docs/html/index.html $(BUILDDIR)/html/index.html \
+        cp _static/copybutton.js _output/html/_static
 vhtml: _work/venv/.stamp
 	. _work/venv/bin/activate && $(GEN_DOCS)
 html:

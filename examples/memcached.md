@@ -48,7 +48,7 @@ name and other parameters in the deployment can be modified with
 how one can change the namespace, volume size or add additional
 command line parameters:
 
-```console
+```ShellSession
 $ mkdir -p my-memcached-deployment
 
 $ cat >my-memcached-deployment/kustomization.yaml <<EOF
